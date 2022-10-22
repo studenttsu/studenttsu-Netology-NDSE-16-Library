@@ -1,4 +1,5 @@
 const { BooksService } = require('../services/booksService');
+const path = require('path');
 
 exports.getAll = (req, res) => {
     res.json(BooksService.getAll());
@@ -13,7 +14,6 @@ exports.getById = (req, res) => {
 
 exports.create = (req, res) => {
     const bookDto = req.body;
-    console.log(bookDto);
     let createdBook = BooksService.create(bookDto);
 
     if (req.file) {
@@ -46,5 +46,8 @@ exports.remove = (req, res) => {
 }
 
 exports.downloadBook = (req, res) => {
+    const { id } = req.params;
+    const book = BooksService.getById(id);
 
+    res.sendFile(path.resolve(book.fileBook));
 }
