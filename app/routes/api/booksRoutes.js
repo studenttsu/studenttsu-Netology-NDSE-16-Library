@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const booksController = require('../controllers/booksController');
-const { checkBook } = require('../middlewares/checkBook');
-const uploadBook  = require('../middlewares/uploadBook');
+const booksController = require('../../controllers/booksController');
+const { checkBook } = require('../../middlewares/checkBook');
+const uploadBook  = require('../../middlewares/uploadBook');
 
 const booksRoutes = Router();
 

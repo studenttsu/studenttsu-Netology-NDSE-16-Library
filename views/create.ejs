@@ -1,0 +1,57 @@
+<h4 class="mb-4">Добавление книги</h4>
+
+<div class="row">
+    <div class="col-lg-6">
+        <form method="post" action="/create" class="needs-validation" novalidate>
+            <div class="mb-4">
+                <div class="mb-3">
+                    <label class="form-label">Название</label>
+                    <input name="title" type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Автор</label>
+                    <input name="authors" type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <textarea name="description" rows="3" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Файл книги</label>
+                    <input class="form-control" type="file" accept=".pdf">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Обложка</label>
+                    <input name="fileCover" class="form-control" type="file" accept="image/*">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>

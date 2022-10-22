@@ -7,4 +7,4 @@ const router = Router();
 router.use('/books', booksRoutes);
 router.use('/user', usersRoutes);
 
-exports.appRouter = router;
+exports.apiRoutes = router;
