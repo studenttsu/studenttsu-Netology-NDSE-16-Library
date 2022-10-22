@@ -9,9 +9,10 @@ class Book {
         this.favorite = '';
         this.fileCover = '';
         this.fileName = '';
+        this.fileBook = '';
 
         if (book) {
-            Object.assign(book);
+            Object.assign(this, book);
         }
     }
 }

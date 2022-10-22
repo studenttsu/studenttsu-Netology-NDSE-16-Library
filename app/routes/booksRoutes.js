@@ -1,13 +1,15 @@
 const { Router } = require('express');
 const booksController = require('../controllers/booksController');
 const { checkBook } = require('../middlewares/checkBook');
+const uploadBook  = require('../middlewares/uploadBook');
 
 const booksRoutes = Router();
 
 booksRoutes
     .get('', booksController.getAll)
     .get('/:id', checkBook, booksController.getById)
-    .post('', booksController.create)
+    .get('/:id/download', booksController.downloadBook)
+    .post('', uploadBook.single('fileBook'), booksController.create)
     .put('/:id', checkBook, booksController.update)
     .delete('/:id', checkBook, booksController.remove);
 
