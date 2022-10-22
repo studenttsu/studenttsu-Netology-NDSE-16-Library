@@ -31,7 +31,8 @@ class BooksService {
                 return {
                     ...book,
                     ...bookDto,
-                    id: book.id
+                    id: book.id,
+                    fileBook: book.fileBook
                 };
             }
 
@@ -41,6 +42,19 @@ class BooksService {
 
     remove(bookId) {
         this.books = this.books.filter(book => book.id !== bookId);
+    }
+
+    setFilePathToBook(bookId, path) {
+        this.books = this.books.map(book => {
+            if (book.id === bookId) {
+                return {
+                    ...book,
+                    fileBook: path
+                };
+            }
+
+            return book;
+        });
     }
 }
 
