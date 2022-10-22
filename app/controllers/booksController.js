@@ -6,32 +6,20 @@ exports.getAll = (req, res) => {
 
 exports.getById = (req, res) => {
     const { id } = req.params;
-
     const book = BooksService.getById(id);
-
-    if (!book) {
-        res.status(404);
-        res.json({ error: 'Книга не найдена' });
-        return;
-    }
 
     res.json(book);
 }
 
 exports.create = (req, res) => {
-    res.send('create');
+    const bookDto = req.body;
+    const createdBook = BooksService.create(bookDto);
+
+    res.status(201).json(createdBook);
 }
 
 exports.update = (req, res) => {
     const { id } = req.params;
-
-    const book = BooksService.getById(id);
-
-    if (!book) {
-        res.status(404);
-        res.json({ error: 'Книга не найдена' });
-        return;
-    }
 
     BooksService.update(id, req.body);
     const updatedBook = BooksService.getById(id);
@@ -41,15 +29,7 @@ exports.update = (req, res) => {
 
 exports.remove = (req, res) => {
     const { id } = req.params;
-
-    const book = BooksService.getById(id);
-
-    if (!book) {
-        res.status(404);
-        res.json({ error: 'Книга не найдена' });
-        return;
-    }
-
     BooksService.remove(id);
+
     res.send('ok');
 }
