@@ -11,7 +11,7 @@ class Book {
         this.fileName = '';
 
         if (book) {
-            Object.assign(book);
+            Object.assign(this, book);
         }
     }
 }
