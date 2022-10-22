@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const { booksRouter } = require('./booksRoutes');
+const { booksRoutes } = require('./booksRoutes');
+const { usersRoutes } = require('./usersRoutes');
 
 const router = Router();
 
-router.use('/books', booksRouter);
+router.use('/books', booksRoutes);
+router.use('/user', usersRoutes);
 
 exports.appRouter = router;
