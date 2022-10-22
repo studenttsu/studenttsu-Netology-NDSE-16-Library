@@ -1,9 +1,21 @@
+const { BooksService } = require('../services/booksService');
+
 exports.getAll = (req, res) => {
-    res.send('getAll');
+    res.json(BooksService.getAll());
 }
 
 exports.getById = (req, res) => {
-    res.send('getById');
+    const { id } = req.params;
+
+    const book = BooksService.getById(id);
+
+    if (!book) {
+        res.status(404);
+        res.json({ error: 'Книга не найдена' });
+        return;
+    }
+
+    res.json(book);
 }
 
 exports.create = (req, res) => {
@@ -11,9 +23,33 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    res.send('update');
+    const { id } = req.params;
+
+    const book = BooksService.getById(id);
+
+    if (!book) {
+        res.status(404);
+        res.json({ error: 'Книга не найдена' });
+        return;
+    }
+
+    BooksService.update(id, req.body);
+    const updatedBook = BooksService.getById(id);
+
+    res.json(updatedBook);
 }
 
 exports.remove = (req, res) => {
-    res.send('remove');
+    const { id } = req.params;
+
+    const book = BooksService.getById(id);
+
+    if (!book) {
+        res.status(404);
+        res.json({ error: 'Книга не найдена' });
+        return;
+    }
+
+    BooksService.remove(id);
+    res.send('ok');
 }
