@@ -1,7 +1,14 @@
-<div class="list-group">
+<div class="list-group books-list">
     <% books.forEach(function(book) { %>
-        <a href="/view/<%= book.id %>" class="list-group-item list-group-item-action">
-            <%= book.title %>
+        <a href="/view/<%= book.id %>" class="list-group-item-action">
+                <% if(book.fileCover) { %>
+                        <img style="max-width: 60px" src="<%= book.fileCover %>" alt="">
+                <% } %>
+
+                <div>
+                        <h4><%= book.title %></h4>
+                        <p><%= book.authors %></p>
+                </div>
         </a>
     <% }); %>
 </div>

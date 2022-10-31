@@ -4,11 +4,11 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        if (!fs.existsSync('./public/images')) {
-            fs.mkdirSync('./public/images', { recursive: true });
+        if (!fs.existsSync('./public/books-files')) {
+            fs.mkdirSync('./public/books-files', { recursive: true });
         }
 
-        cb(null, './public/images');
+        cb(null, './public/books-files');
     },
     filename(req, file, cb) {
         cb(null, `${uuid()}-${file.originalname}`)
@@ -16,11 +16,7 @@ const storage = multer.diskStorage({
 });
 
 const filter = (req, file, cb) => {
-    if(
-        file.mimetype === "image/png"
-        || file.mimetype === "image/jpg"
-        || file.mimetype === "image/jpeg"
-    ) {
+    if(file.mimetype === "pdf") {
         cb(null, true);
         return;
     }

@@ -1,4 +1,7 @@
-<h4 class="mb-4"><%= isCreate ? 'Добавление' : 'Редактирование' %> книги</h4>
+<h4 class="mb-4">
+    <a href="<%= isCreate ? '/' : `/view/${book.id}` %>" class="btn btn-link"><i class="bi bi-arrow-left"></i> Назад</a>
+    <%= isCreate ? 'Добавление' : 'Редактирование' %> книги
+</h4>
 
 <div class="row">
     <div class="col-lg-6">
