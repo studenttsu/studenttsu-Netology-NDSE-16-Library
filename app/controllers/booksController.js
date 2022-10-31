@@ -49,5 +49,5 @@ exports.downloadBook = (req, res) => {
     const { id } = req.params;
     const book = BooksService.getById(id);
 
-    res.sendFile(path.resolve(book.fileBook));
+    res.download(path.resolve(book.fileBook));
 }

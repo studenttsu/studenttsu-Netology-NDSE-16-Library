@@ -1,0 +1,14 @@
+/*
+body {
+    background: #f6f9ff;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0px 2px 20px rgb(1 41 112 / 10%);
+}
+*/
+
+.container {
+    max-width: 1000px;
+}

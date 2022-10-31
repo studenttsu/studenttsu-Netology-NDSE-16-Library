@@ -4,7 +4,17 @@
 </div>
 
 <article>
-    <h1 class="mb-2"><%= book.title %></h1>
-    <p><%= book.authors %></p>
-    <p class="lead"><%= book.description %></p>
+    <div class="row">
+        <div class="col-7">
+            <h1 class="mb-2"><%= book.title %></h1>
+            <p><%= book.authors %></p>
+            <p class="lead"><%= book.description %></p>
+        </div>
+
+        <div class="col-4 offset-1">
+            <% if(book.fileCover) { %>
+                <p><img style="max-width: 100%;" src="<%= book.fileCover %>" alt=""></p>
+            <% } %>
+        </div>
+    </div>
 </article>
