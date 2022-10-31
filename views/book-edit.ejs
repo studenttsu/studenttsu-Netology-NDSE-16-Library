@@ -1,27 +1,27 @@
-<h4 class="mb-4">Добавление книги</h4>
+<h4 class="mb-4"><%= isCreate ? 'Добавление' : 'Редактирование' %> книги</h4>
 
 <div class="row">
     <div class="col-lg-6">
-        <form method="post" action="/create" class="needs-validation" novalidate>
+        <form method="post" action="<%= isCreate ? '/create' : `/edit-book/${book.id}` %>" class="needs-validation" novalidate>
             <div class="mb-4">
                 <div class="mb-3">
                     <label class="form-label">Название</label>
-                    <input name="title" type="text" class="form-control" required>
+                    <input name="title" type="text" class="form-control" value="<%= book.title %>" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Автор</label>
-                    <input name="authors" type="text" class="form-control" required>
+                    <input name="authors" type="text" class="form-control" value="<%= book.authors %>" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Описание</label>
-                    <textarea name="description" rows="3" class="form-control"></textarea>
+                    <textarea name="description" rows="5" class="form-control"><%= book.description %></textarea>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Файл книги</label>
-                    <input class="form-control" type="file" accept=".pdf">
+                    <input class="form-control" type="file" accept=".pdf" value="<%= book.title%>">
                 </div>
 
                 <div class="mb-3">
@@ -30,7 +30,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%">Добавить</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%">
+                <%= isCreate ? 'Добавить' : 'Редактировать' %>
+            </button>
         </form>
     </div>
 </div>

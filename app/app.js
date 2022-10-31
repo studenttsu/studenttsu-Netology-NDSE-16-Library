@@ -7,6 +7,7 @@ const { clientRoutes } = require('./routes/clientRoutes');
 
 const app = express();
 
+app.use(express.static('public'));
 app.use(expressLayouts);
 app.set('layout', '_layout');
 app.set('view engine', 'ejs');
