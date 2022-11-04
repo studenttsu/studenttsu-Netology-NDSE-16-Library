@@ -1,6 +1,12 @@
-<div class="mb-4">
-    <a href="/" class="btn btn-link"><i class="bi bi-arrow-left"></i> Назад</a>
-    <a href="/edit/<%= book.id %>" class="btn btn-light"><i class="bi bi-pencil"></i> Редактировать</a>
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+        <a href="/" class="btn btn-link"><i class="bi bi-arrow-left"></i> Назад</a>
+        <a href="/edit/<%= book.id %>" class="btn btn-light"><i class="bi bi-pencil"></i> Редактировать</a>
+    </div>
+
+    <% if(viewCount) { %>
+        <span style="font-size: 14px"><i class="bi bi-eye"></i> <%= viewCount %></span>
+    <% } %>
 </div>
 
 <article>

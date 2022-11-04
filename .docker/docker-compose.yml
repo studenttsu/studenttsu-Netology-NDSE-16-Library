@@ -10,6 +10,8 @@ services:
       - ${LIBRARY_APP_PORT}:${LIBRARY_APP_PORT}
     environment:
       PORT: ${LIBRARY_APP_PORT}
+      COUNTER_PORT: ${COUNTER_APP_PORT}
+    command: ["npm", "run", "start"]
 
   counter-app:
     build:
@@ -20,4 +22,14 @@ services:
       - ${COUNTER_APP_PORT}:${COUNTER_APP_PORT}
     environment:
       PORT: ${COUNTER_APP_PORT}
+      REDIS_URL: ${REDIS_URL}
+    depends_on:
+      - redis
+    command: ["npm", "run", "start"]
 
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data

@@ -1,7 +1,8 @@
 const { Router } = require('express');
-const {BooksService} = require('../services/booksService');
+const { BooksService } = require('../services/booksService');
+const { CounterService } = require('../services/counterService');
 const uploadBook = require('../middlewares/uploadBook');
-const {Book} = require('../models/book');
+const { Book } = require('../models/book');
 
 const clientRoutes = Router();
 
@@ -28,14 +29,18 @@ clientRoutes
             book
         });
     })
-    .get('/view/:id', (req, res) => {
-        const book = BooksService.getById(req.params.id);
+    .get('/view/:id', async (req, res) => {
+        const bookId = req.params.id;
+        const book = BooksService.getById(bookId);
 
         if (!book) {
             res.redirect('/');
         }
 
-       res.render('view', { book });
+        const viewCount = await CounterService.getBookViewCount(bookId);
+        CounterService.increaseBookViewCount(bookId);
+
+        res.render('view', { book, viewCount: viewCount + 1 });
     })
     .post('/create-book', uploadBook.single('fileBook'), (req, res) => {
         const bookDto = req.body;
