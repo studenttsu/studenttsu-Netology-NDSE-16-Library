@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  library-app:
+    build:
+      context: ../library-app
+    container_name: library_app
+    restart: unless-stopped
+    ports:
+      - ${LIBRARY_APP_PORT}:${LIBRARY_APP_PORT}
+    environment:
+      PORT: ${LIBRARY_APP_PORT}
+
+  counter-app:
+    build:
+      context: ../counter-app
+    container_name: counter_app
+    restart: unless-stopped
+    ports:
+      - ${COUNTER_APP_PORT}:${COUNTER_APP_PORT}
+    environment:
+      PORT: ${COUNTER_APP_PORT}
+
