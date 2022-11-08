@@ -37,10 +37,10 @@ clientRoutes
             res.redirect('/');
         }
 
-        const viewCount = await CounterService.getBookViewCount(bookId);
-        CounterService.increaseBookViewCount(bookId);
+        const { count } = await CounterService.getBookViewCount(bookId);
+        await CounterService.increaseBookViewCount(bookId);
 
-        res.render('view', { book, viewCount: viewCount + 1 });
+        res.render('view', { book, viewCount: count + 1 });
     })
     .post('/create-book', uploadBook.single('fileBook'), (req, res) => {
         const bookDto = req.body;
