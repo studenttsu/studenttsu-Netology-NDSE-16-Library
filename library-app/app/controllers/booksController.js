@@ -1,9 +1,12 @@
-const { BooksService } = require('../services/booksService');
 const path = require('path');
+const { BooksService } = require('../services/booksService');
+const { container } = require('../container');
+
+const repo = container.get(BooksService);
 
 exports.getAll = async (req, res) => {
     try {
-        const books = await BooksService.getAll();
+        const books = await repo.getAll();
         res.json(books);
     } catch (e) {
         res.status(500).json(e);
@@ -14,7 +17,7 @@ exports.getById = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const book = await BooksService.getById(id);
+        const book = await repo.getById(id);
         res.json(book);
     } catch (e) {
         res.status(500).json(e);
@@ -25,11 +28,11 @@ exports.create = async (req, res) => {
     const bookDto = req.body;
 
     try {
-        let createdBook = await BooksService.create(bookDto);
+        let createdBook = await repo.create(bookDto);
 
         if (req.file) {
             const { path } = req.file?.path;
-            BooksService.setFilePathToBook(createdBook.id, path);
+            await repo.setFilePathToBook(createdBook.id, path);
 
             createdBook = {
                 ...createdBook,
@@ -43,25 +46,25 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     const { id } = req.params;
 
-    BooksService.update(id, req.body);
-    const updatedBook = BooksService.getById(id);
+    await repo.update(id, req.body);
+    const updatedBook = await repo.getById(id);
 
     res.json(updatedBook);
 }
 
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
     const { id } = req.params;
-    BooksService.remove(id);
+    await repo.remove(id);
 
     res.send('ok');
 }
 
-exports.downloadBook = (req, res) => {
+exports.downloadBook = async (req, res) => {
     const { id } = req.params;
-    const book = BooksService.getById(id);
+    const book = await repo.getById(id);
 
     res.download(path.resolve(book.fileBook));
 }
