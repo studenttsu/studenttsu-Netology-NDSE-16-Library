@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  library-app:
+    build:
+      context: ../library-app
+    container_name: library_app
+    restart: unless-stopped
+    expose:
+      - 3000
+    ports:
+      - ${LIBRARY_APP_PORT}:${LIBRARY_APP_PORT}
+    environment:
+      PORT: ${LIBRARY_APP_PORT}
+      COUNTER_PORT: ${COUNTER_APP_PORT}
+    networks:
+      - apps
+
+  counter-app:
+    build:
+      context: ../counter-app
+    container_name: counter_app
+    restart: unless-stopped
+    ports:
+      - ${COUNTER_APP_PORT}:${COUNTER_APP_PORT}
+    environment:
+      PORT: ${COUNTER_APP_PORT}
+      REDIS_URL: ${REDIS_URL}
+    depends_on:
+      - redis
+    networks:
+      - apps
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - apps
+
+networks:
+  apps:
+    external: true
+    driver: bridge

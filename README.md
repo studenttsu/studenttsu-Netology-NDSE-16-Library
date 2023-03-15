@@ -1,3 +1,9 @@
+1) В директории .docker на основе `.env.example` создаём `.env`
+
+2) запускаем приложения через docker-compose
+   `docker-compose -f ./.docker/docker-compose.yml up -d --build`
+
+
 Вставка двух записей книг
 ```
     db.books.insertMany([
@@ -18,13 +24,5 @@
 ```
     db.books.find({
         title: 'Book 1'
-    })
-```
-
-
-Удаление записи по id
-```
-    db.books.deleteOne({
-        '_id': ObjectId('563237a41a4d68582c2509da')
     })
 ```
