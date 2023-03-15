@@ -2,6 +2,7 @@ const express = require('express')
 const expressLayouts = require('express-ejs-layouts');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
 const { apiRoutes } = require('./routes/api');
 const { clientRoutes } = require('./routes/clientRoutes');
 

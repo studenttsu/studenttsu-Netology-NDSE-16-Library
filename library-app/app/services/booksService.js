@@ -1,4 +1,4 @@
-const { Book } = require('../models/book');
+const { Book, BookSchema } = require('../models/book');
 
 const bookMockData = [
     new Book({
@@ -25,54 +25,30 @@ const bookMockData = [
 ];
 
 class BooksService {
-    constructor() {
-        this.books = bookMockData;
-    }
-
     getAll() {
-        return this.books;
+        return BookSchema.find().select('-__v');
     }
 
     getById(bookId) {
-        return this.books.find(b => b.id === bookId);
+        return BookSchema.findById(bookId).select('-__v');
     }
 
-    create(bookDto) {
-        const book = new Book(bookDto);
-        this.books.push(book);
+    async create(bookDto) {
+        const book = new BookSchema(bookDto);
+        await book.save();
         return book;
     }
 
-    update(bookId, bookDto) {
-        this.books = this.books.map(book => {
-            if (book.id === bookId) {
-                return {
-                    ...book,
-                    ...bookDto,
-                    id: book.id,
-                    fileBook: book.fileBook
-                };
-            }
-
-            return book;
-        });
+    async update(bookId, bookDto) {
+        await BookSchema.findByIdAndUpdate(bookId, bookDto);
     }
 
-    remove(bookId) {
-        this.books = this.books.filter(book => book.id !== bookId);
+    async remove(bookId) {
+        await BookSchema.findByIdAndDelete(bookId);
     }
 
-    setFilePathToBook(bookId, path) {
-        this.books = this.books.map(book => {
-            if (book.id === bookId) {
-                return {
-                    ...book,
-                    fileBook: path
-                };
-            }
-
-            return book;
-        });
+    async setFilePathToBook(bookId, path) {
+        await BookSchema.findByIdAndUpdate(bookId, { fileBook: path });
     }
 }
 

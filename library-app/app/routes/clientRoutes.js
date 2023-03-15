@@ -7,8 +7,8 @@ const { Book } = require('../models/book');
 const clientRoutes = Router();
 
 clientRoutes
-    .get('', (req, res) => {
-        const books = BooksService.getAll();
+    .get('', async (req, res) => {
+        const books = await BooksService.getAll();
         res.render('index', { books });
     })
     .get('/create', (req, res) => {
