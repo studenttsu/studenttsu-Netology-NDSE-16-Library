@@ -2,9 +2,15 @@ const { v4: uuid } = require('uuid')
 const { Schema, model } = require('mongoose');
 
 const BookSchema = new Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true
+    },
     description: String,
-    authors: String,
+    authors: {
+        type: String,
+        required: true
+    },
     favorite: String,
     fileCover: String,
     fileName: String,
