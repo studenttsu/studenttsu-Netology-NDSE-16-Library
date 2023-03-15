@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
 
         if (req.file) {
             const { path } = req.file?.path;
-            BooksService.setFilePathToBook(createdBook.id, path);
+            await BooksService.setFilePathToBook(createdBook.id, path);
 
             createdBook = {
                 ...createdBook,
@@ -43,25 +43,25 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     const { id } = req.params;
 
-    BooksService.update(id, req.body);
+    await BooksService.update(id, req.body);
     const updatedBook = BooksService.getById(id);
 
     res.json(updatedBook);
 }
 
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
     const { id } = req.params;
-    BooksService.remove(id);
+    await BooksService.remove(id);
 
     res.send('ok');
 }
 
-exports.downloadBook = (req, res) => {
+exports.downloadBook = async (req, res) => {
     const { id } = req.params;
-    const book = BooksService.getById(id);
+    const book = await BooksService.getById(id);
 
     res.download(path.resolve(book.fileBook));
 }
