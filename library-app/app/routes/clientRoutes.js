@@ -11,14 +11,14 @@ clientRoutes
         const books = await BooksService.getAll();
         res.render('index', { books });
     })
-    .get('/create', (req, res) => {
+    .get('/create', async (req, res) => {
         res.render('book-edit', {
             isCreate: true,
             book: new Book()
         });
     })
-    .get('/edit/:id', (req, res) => {
-        const book = BooksService.getById(req.params.id);
+    .get('/edit/:id', async (req, res) => {
+        const book = await BooksService.getById(req.params.id);
 
         if (!book) {
             res.redirect('/');
@@ -31,37 +31,41 @@ clientRoutes
     })
     .get('/view/:id', async (req, res) => {
         const bookId = req.params.id;
-        const book = BooksService.getById(bookId);
+        const book = await BooksService.getById(bookId);
 
         if (!book) {
             res.redirect('/');
         }
 
-        const { count } = await CounterService.getBookViewCount(bookId);
+        const views = await CounterService.getBookViewCount(bookId);
         await CounterService.increaseBookViewCount(bookId);
 
-        res.render('view', { book, viewCount: count + 1 });
+        res.render('view', { book, viewCount: views ? views.count + 1 : 0 });
     })
-    .post('/create-book', uploadBook.single('fileBook'), (req, res) => {
+    .post('/create-book', uploadBook.single('fileBook'), async (req, res) => {
         const bookDto = req.body;
-        let createdBook = BooksService.create(bookDto);
+        let createdBook = await BooksService.create(bookDto);
 
         if (req.file) {
             const { path } = req.file;
-            BooksService.setFilePathToBook(createdBook.id, path);
+            await BooksService.setFilePathToBook(createdBook.id, path);
         }
 
         res.redirect('/');
     })
-    .post('/edit-book/:id', uploadBook.single('fileBook'), (req, res) => {
-        const book = BooksService.getById(req.params.id);
+    .post('/edit-book/:id', uploadBook.single('fileBook'), async (req, res) => {
+        const book = await BooksService.getById(req.params.id);
 
         if (!book) {
             res.redirect('/');
         }
 
-        BooksService.update(req.params.id, req.body);
+        await BooksService.update(req.params.id, req.body);
         res.redirect(`/view/${req.params.id}`);
+    })
+    .get('/remove/:id', async (req, res) => {
+       await BooksService.remove(req.params.id);
+       res.redirect('/');
     });
 
 exports.clientRoutes = clientRoutes;

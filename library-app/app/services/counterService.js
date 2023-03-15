@@ -12,8 +12,12 @@ class CounterService {
         });
     }
 
-    increaseBookViewCount(bookId) {
-        return this.httpClient.post(`/counter/${bookId}/incr`);
+    async increaseBookViewCount(bookId) {
+        try {
+            return await this.httpClient.post(`/counter/${bookId}/incr`);
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     async getBookViewCount(bookId) {

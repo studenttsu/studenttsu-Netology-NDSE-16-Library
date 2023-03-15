@@ -1,4 +1,8 @@
 <div class="list-group books-list">
+    <% if (books.length === 0) { %>
+            Список книг пуст
+    <% } %>
+
     <% books.forEach(function(book) { %>
         <a href="/view/<%= book.id %>" class="list-group-item-action">
                 <% if(book.fileCover) { %>
