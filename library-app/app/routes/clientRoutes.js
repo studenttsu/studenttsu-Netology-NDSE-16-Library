@@ -2,23 +2,25 @@ const { Router } = require('express');
 const passport = require('passport');
 const { BooksService } = require('../services/booksService');
 const { CounterService } = require('../services/counterService');
+const { UsersService } = require('../services/usersService');
 const uploadBook = require('../middlewares/uploadBook');
 const { Book } = require('../models/book');
 const {container} = require('../container');
 const {authMiddleware} = require('../middlewares/auth');
 
 const clientRoutes = Router();
-const repo = container.get(BooksService);
+const booksRepo = container.get(BooksService);
+const usersRepo = container.get(UsersService);
 
 clientRoutes
     .get('', authMiddleware, async (req, res) => {
-        const books = await repo.getAll();
+        const books = await booksRepo.getAll();
         res.render('index', { books });
     })
     .get('/login', (req, res) => {
         res.render('login', { layout: './layouts/base' });
     })
-    .post('/signin', passport.authenticate('local', {
+    .post('/login', passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login'
     }))
@@ -31,8 +33,12 @@ clientRoutes
     .get('/signup', (req, res) => {
         res.render('signup', { layout: './layouts/base' });
     })
-    .get('/profile', authMiddleware, (req, res) => {
-        res.render('profile');
+    .post('/signup', async (req, res) => {
+        await usersRepo.createUser(req.body);
+        res.redirect('/');
+    })
+    .get('/me', authMiddleware, (req, res) => {
+        res.render('profile', { user: req.user });
     })
     .get('/create', authMiddleware, async (req, res) => {
         res.render('book-edit', {
@@ -41,7 +47,7 @@ clientRoutes
         });
     })
     .get('/edit/:id', authMiddleware, async (req, res) => {
-        const book = await repo.getById(req.params.id);
+        const book = await booksRepo.getById(req.params.id);
 
         if (!book) {
             res.redirect('/');
@@ -54,7 +60,7 @@ clientRoutes
     })
     .get('/view/:id', authMiddleware, async (req, res) => {
         const bookId = req.params.id;
-        const book = await repo.getById(bookId);
+        const book = await booksRepo.getById(bookId);
 
         if (!book) {
             res.redirect('/');
@@ -67,27 +73,27 @@ clientRoutes
     })
     .post('/create-book', authMiddleware, uploadBook.single('fileBook'), async (req, res) => {
         const bookDto = req.body;
-        let createdBook = await repo.create(bookDto);
+        let createdBook = await booksRepo.create(bookDto);
 
         if (req.file) {
             const { path } = req.file;
-            await repo.setFilePathToBook(createdBook.id, path);
+            await booksRepo.setFilePathToBook(createdBook.id, path);
         }
 
         res.redirect('/');
     })
     .post('/edit-book/:id', authMiddleware, uploadBook.single('fileBook'), async (req, res) => {
-        const book = await repo.getById(req.params.id);
+        const book = await booksRepo.getById(req.params.id);
 
         if (!book) {
             res.redirect('/');
         }
 
-        await repo.update(req.params.id, req.body);
+        await booksRepo.update(req.params.id, req.body);
         res.redirect(`/view/${req.params.id}`);
     })
     .get('/remove/:id', authMiddleware, async (req, res) => {
-       await repo.remove(req.params.id);
+       await booksRepo.remove(req.params.id);
        res.redirect('/');
     });
 

@@ -1,4 +1,5 @@
 const { BookSchema } = require('../models/book');
+const { injectableService } = require('../container');
 
 class BooksService {
     getAll() {
@@ -28,4 +29,4 @@ class BooksService {
     }
 }
 
-exports.BooksService = BooksService;
+exports.BooksService = injectableService(BooksService);
