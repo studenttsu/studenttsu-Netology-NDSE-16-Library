@@ -31,6 +31,9 @@ clientRoutes
     .get('/signup', (req, res) => {
         res.render('signup', { layout: './layouts/base' });
     })
+    .get('/profile', authMiddleware, (req, res) => {
+        res.render('profile');
+    })
     .get('/create', authMiddleware, async (req, res) => {
         res.render('book-edit', {
             isCreate: true,
