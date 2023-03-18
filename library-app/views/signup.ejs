@@ -2,7 +2,7 @@
     <div class="col-lg-6">
 
         <div class="mb-4">
-            <h4>Авторизация</h4>
+            <h4>Регистрация</h4>
         </div>
 
         <form action="/signin" method="post">
@@ -11,13 +11,17 @@
                 <input type="text" class="form-control" name="username" id="username" required>
             </div>
             <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="mb-5">
                 <label for="password" class="form-label">Пароль</label>
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
 
             <div class="d-grid gap-2 text-center">
-                <button type="submit" class="btn btn-primary">Войти</button>
-                <a href="/signup">Регистрация</a>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                <a href="/login">Назад</a>
             </div>
         </form>
     </div>

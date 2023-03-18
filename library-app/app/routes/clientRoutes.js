@@ -28,6 +28,9 @@ clientRoutes
             res.redirect('/');
         });
     })
+    .get('/signup', (req, res) => {
+        res.render('signup', { layout: './layouts/base' });
+    })
     .get('/create', authMiddleware, async (req, res) => {
         res.render('book-edit', {
             isCreate: true,
