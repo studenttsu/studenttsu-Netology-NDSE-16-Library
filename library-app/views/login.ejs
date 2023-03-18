@@ -1,0 +1,25 @@
+<div class="row justify-content-center" style="padding-top: 24px">
+    <div class="col-lg-6">
+
+        <div class="mb-4">
+            <h4>Авторизация</h4>
+            <p>Дефолтный пользователь admin/admin</p>
+        </div>
+
+        <form action="/signin" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Логин</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </div>
+        </form>
+    </div>
+</div>
+

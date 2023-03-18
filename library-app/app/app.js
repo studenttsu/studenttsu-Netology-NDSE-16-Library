@@ -2,20 +2,32 @@ const express = require('express')
 const expressLayouts = require('express-ejs-layouts');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const passport = require('passport');
 
 const { apiRoutes } = require('./routes/api');
 const { clientRoutes } = require('./routes/clientRoutes');
+require('./core/passport');
 
 const app = express();
 
 app.use(express.static('public'));
 app.use(expressLayouts);
-app.set('layout', '_layout');
+app.set('layout', './layouts/with-header');
 app.set('view engine', 'ejs');
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(session({
+    secret: 'SECRET',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api', apiRoutes);
 app.use('/', clientRoutes);
