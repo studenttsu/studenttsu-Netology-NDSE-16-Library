@@ -1,10 +1,11 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const { app } = require('./app/app');
+const { app, websocketServer} = require('./app/app');
 const { BookSchema } = require('./app/models/book');
 
 const PORT = process.env.PORT || 3000;
+const WEBSOCKET_PORT = process.env.PORT || 3004;
 
 async function start() {
     try {
@@ -13,6 +14,10 @@ async function start() {
 
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
+        });
+
+        websocketServer.listen(WEBSOCKET_PORT, () => {
+            console.log(`Websocket server started on port ${WEBSOCKET_PORT}`);
         });
     } catch (e) {
         console.error(e);

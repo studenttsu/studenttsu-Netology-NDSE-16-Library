@@ -8,7 +8,7 @@
     <span style="font-size: 14px"><i class="bi bi-eye"></i> <%= viewCount %></span>
 </div>
 
-<article>
+<article class="mb-4">
     <div class="row">
         <div class="col-7">
             <h1 class="mb-2"><%= book.title %></h1>
@@ -23,3 +23,34 @@
         </div>
     </div>
 </article>
+
+<div>
+    <h5 class="mb-2">Обсуждения</h5>
+
+    <form>
+        <div class="input-group">
+            <input type="text" name="message" class="form-control" placeholder="Текст комментария">
+            <button class="btn btn-primary">Отправить</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+<script>
+    const bookId = location.pathname.split('/').pop();
+    const socket = io('http://localhost:3004', {
+        transports: ["websocket"],
+        query: `roomName=book${bookId}`
+    });
+
+    socket.on('message-to-all', (msg) => {
+        console.log(msg);
+    });
+
+    socket.on('message-to-room', (msg) => {
+        console.log(msg);
+    });
+
+    socket.emit('message-to-all', 123);
+</script>

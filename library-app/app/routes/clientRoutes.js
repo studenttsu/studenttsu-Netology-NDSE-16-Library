@@ -69,7 +69,10 @@ clientRoutes
         const views = await CounterService.getBookViewCount(bookId);
         await CounterService.increaseBookViewCount(bookId);
 
-        res.render('view', { book, viewCount: views ? views.count + 1 : 0 });
+        res.render('view', {
+            book, viewCount: views ? views.count + 1 : 0,
+            messages: []
+        });
     })
     .post('/create-book', authMiddleware, uploadBook.single('fileBook'), async (req, res) => {
         const bookDto = req.body;
