@@ -24,12 +24,24 @@
     </div>
 </article>
 
-<div>
+<div style="padding-bottom: 24px">
     <h5 class="mb-2">Обсуждения</h5>
 
-    <form>
+    <div id="comments-list" class="list-group mb-2">
+        <% comments.forEach(function(comment) { %>
+            <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <small><%= comment.authorId %></small>
+                    <small class="text-muted"><%= comment.createdAt %></small>
+                </div>
+                <p class="mb-1"><%= comment.message %></p>
+            </div>
+        <% }); %>
+    </div>
+
+    <form id="comment-form">
         <div class="input-group">
-            <input type="text" name="message" class="form-control" placeholder="Текст комментария">
+            <input type="text" name="message" class="form-control" placeholder="Текст комментария" required>
             <button class="btn btn-primary">Отправить</button>
         </div>
     </form>
@@ -44,13 +56,34 @@
         query: `roomName=book${bookId}`
     });
 
-    socket.on('message-to-all', (msg) => {
-        console.log(msg);
+    const commentForm = document.getElementById('comment-form');
+    const commentsList = document.getElementById('comments-list');
+
+    commentForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        socket.emit('message-to-room', {
+            message: e.target.message.value,
+            authorId: '<%= userId %>',
+            bookId
+        });
+
+        commentForm.reset();
     });
 
-    socket.on('message-to-room', (msg) => {
-        console.log(msg);
-    });
+    function createMessageEl({ authorId, message, createdAt }) {
+        return `
+            <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <small>${authorId}</small>
+                    <small class="text-muted">${createdAt}</small>
+                </div>
+                <p class="mb-1">${message}</p>
+            </div>
+        `;
+    }
 
-    socket.emit('message-to-all', 123);
+    socket.on('message-to-room', data => {
+        commentsList.insertAdjacentHTML('beforeend', createMessageEl(data));
+    });
 </script>

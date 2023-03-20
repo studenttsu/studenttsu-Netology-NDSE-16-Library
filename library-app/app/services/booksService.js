@@ -1,5 +1,6 @@
 const { BookSchema } = require('../models/book');
 const { injectableService } = require('../container');
+const {BookDiscussionMessageSchema} = require('../models/bookDiscussionMessage');
 
 class BooksService {
     getAll() {
@@ -26,6 +27,18 @@ class BooksService {
 
     async setFilePathToBook(bookId, path) {
         await BookSchema.findByIdAndUpdate(bookId, { fileBook: path });
+    }
+
+    async saveComment({ bookId, authorId, message }) {
+        const data = new BookDiscussionMessageSchema({
+            bookId, authorId, message
+        });
+
+        return data.save();
+    }
+
+    getBookComments(bookId) {
+        return BookDiscussionMessageSchema.find({ bookId });
     }
 }
 
