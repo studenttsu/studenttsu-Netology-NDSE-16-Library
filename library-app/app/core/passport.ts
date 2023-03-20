@@ -1,14 +1,15 @@
-const passport = require('passport');
-const {Strategy: LocalStrategy} = require('passport-local');
-const {container} = require('../container');
-const {UsersService} = require('../services/usersService');
+import { container } from "../container";
+import * as passport from "passport";
+import { DoneCallback } from "passport";
+import { Strategy } from 'passport-local';
+import { UsersService } from "../services/usersService";
 
 const usersRepo = container.get(UsersService);
 
-passport.use('local', new LocalStrategy({
+passport.use('local', new Strategy({
     usernameField: "username",
     passwordField: "password",
-}, async (username, password, done) => {
+}, async (username: string, password: string, done: DoneCallback) => {
     const user = await usersRepo.getByUsername(username);
 
     if (!user) {
@@ -22,11 +23,11 @@ passport.use('local', new LocalStrategy({
     return done(null, user);
 }))
 
-passport.serializeUser((user, cb) => {
+passport.serializeUser((user: any, cb) => {
     cb(null, user.id)
 })
 
-passport.deserializeUser( async (id, cb) => {
+passport.deserializeUser( async (id: string, cb) => {
     const user = await usersRepo.getById(id);
 
     if (!user) {

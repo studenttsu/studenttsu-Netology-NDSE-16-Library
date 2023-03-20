@@ -1,15 +1,15 @@
-const express = require('express')
-const expressLayouts = require('express-ejs-layouts');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const passport = require('passport');
-const http = require('http');
+import * as express from "express";
+import * as expressLayouts from 'express-ejs-layouts';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+import * as session from 'express-session';
+import * as passport from 'passport';
+import * as http from 'http';
 
-const { apiRoutes } = require('./routes/api');
-const { clientRoutes } = require('./routes/clientRoutes');
-const { createWebsocketIO } = require('./websocket');
-require('./core/passport');
+import apiRoutes from './routes/api';
+import { clientRoutes } from "./routes/clientRoutes";
+import { createWebsocketIO } from "./websocket";
+import './core/passport';
 
 const app = express();
 
@@ -34,12 +34,11 @@ app.use(passport.session());
 app.use('/api', apiRoutes);
 app.use('/', clientRoutes);
 
-app.use((req, res) => {
+app.use((req: express.Request, res: express.Response) => {
     res.status(404).render('404', { layout: false });
 });
 
 const websocketServer = http.createServer(app);
 createWebsocketIO(websocketServer);
 
-exports.app = app;
-exports.websocketServer = websocketServer;
+export { app, websocketServer };

@@ -3,4 +3,5 @@ node_modules/
 .docker/.env
 .docker/volumes
 library-app/.env
+library-app/dist
 redis-data/

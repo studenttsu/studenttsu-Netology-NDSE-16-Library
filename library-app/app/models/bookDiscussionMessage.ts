@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
+import { model, Schema } from "mongoose";
 
-const BookDiscussionMessageSchema = new Schema({
+export const BookDiscussionMessageSchema = model('BookDiscussionMessage', new Schema({
     bookId: {
         type: Schema.Types.ObjectId,
         ref: 'Book',
@@ -17,6 +17,4 @@ const BookDiscussionMessageSchema = new Schema({
     },
 }, {
     timestamps: true
-});
-
-exports.BookDiscussionMessageSchema = model('BookDiscussionMessage', BookDiscussionMessageSchema);
+}));

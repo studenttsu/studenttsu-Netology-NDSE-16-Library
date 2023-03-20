@@ -1,9 +1,13 @@
-const bcrypt = require('bcrypt');
-const {injectableService} = require('../container');
-const {UserSchema} = require('../models/user');
+import * as bcrypt from 'bcrypt';
+import { injectableService } from "../container";
+import { UserSchema } from "../models/user";
 
-class UsersService {
-    async createUser(userDto) {
+export class UsersService {
+    constructor() {
+        injectableService(this);
+    }
+
+    async createUser(userDto: any) {
         const salt = await bcrypt.genSalt(10);
 
         const user = new UserSchema({
@@ -14,18 +18,16 @@ class UsersService {
         await user.save();
     }
 
-    getById(id) {
+    getById(id: string) {
         return UserSchema.findById(id).select(['id', 'username', 'email']);
     }
 
-    getByUsername(username) {
+    getByUsername(username: string) {
         return UserSchema.findOne({ username }).select(['id', 'username', 'email']);
     }
 
-    async verifyPassword(id, password) {
+    async verifyPassword(id: string, password: string) {
         const user = await UserSchema.findById(id);
         return bcrypt.compare(password, user.password);
     }
 }
-
-exports.UsersService = injectableService(UsersService);

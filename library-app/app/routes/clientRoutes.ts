@@ -8,7 +8,7 @@ const { Book } = require('../models/book');
 const {container} = require('../container');
 const {authMiddleware} = require('../middlewares/auth');
 
-const clientRoutes = Router();
+export const clientRoutes = Router();
 const booksRepo = container.get(BooksService);
 const usersRepo = container.get(UsersService);
 

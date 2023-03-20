@@ -1,8 +1,8 @@
-require('dotenv').config();
+import * as mongoose from 'mongoose';
+import { app, websocketServer } from "./app/app";
+import { BookSchema } from "./app/models/book";
 
-const mongoose = require('mongoose');
-const { app, websocketServer} = require('./app/app');
-const { BookSchema } = require('./app/models/book');
+require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 const WEBSOCKET_PORT = process.env.PORT || 3004;

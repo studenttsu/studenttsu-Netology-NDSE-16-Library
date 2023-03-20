@@ -3,7 +3,7 @@ const booksController = require('../../controllers/booksController');
 const { checkBook } = require('../../middlewares/checkBook');
 const uploadBook  = require('../../middlewares/uploadBook');
 
-const booksRoutes = Router();
+export const booksRoutes = Router();
 
 booksRoutes
     .get('', booksController.getAll)
@@ -12,5 +12,3 @@ booksRoutes
     .post('', uploadBook.single('fileBook'), booksController.create)
     .put('/:id', checkBook, booksController.update)
     .delete('/:id', checkBook, booksController.remove);
-
-exports.booksRoutes = booksRoutes;

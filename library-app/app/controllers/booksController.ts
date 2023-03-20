@@ -1,10 +1,11 @@
-const path = require('path');
-const { BooksService } = require('../services/booksService');
-const { container } = require('../container');
+import { BooksService } from "../services/booksService";
+import { container } from "../container";
+import { Request, Response } from "express";
+import * as path from "path";
 
 const repo = container.get(BooksService);
 
-exports.getAll = async (req, res) => {
+exports.getAll = async (req: Request, res: Response) => {
     try {
         const books = await repo.getAll();
         res.json(books);
@@ -13,7 +14,7 @@ exports.getAll = async (req, res) => {
     }
 }
 
-exports.getById = async (req, res) => {
+exports.getById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
@@ -24,7 +25,7 @@ exports.getById = async (req, res) => {
     }
 }
 
-exports.create = async (req, res) => {
+exports.create = async (req: any, res: Response) => {
     const bookDto = req.body;
 
     try {
@@ -34,6 +35,7 @@ exports.create = async (req, res) => {
             const { path } = req.file?.path;
             await repo.setFilePathToBook(createdBook.id, path);
 
+            // @ts-ignore
             createdBook = {
                 ...createdBook,
                 fileBook: path
@@ -46,7 +48,7 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.update = async (req, res) => {
+exports.update = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     await repo.update(id, req.body);
@@ -55,14 +57,14 @@ exports.update = async (req, res) => {
     res.json(updatedBook);
 }
 
-exports.remove = async (req, res) => {
+exports.remove = async (req: Request, res: Response) => {
     const { id } = req.params;
     await repo.remove(id);
 
     res.send('ok');
 }
 
-exports.downloadBook = async (req, res) => {
+exports.downloadBook = async (req: Request, res: Response) => {
     const { id } = req.params;
     const book = await repo.getById(id);
 
