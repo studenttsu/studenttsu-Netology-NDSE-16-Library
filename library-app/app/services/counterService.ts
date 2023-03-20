@@ -1,8 +1,11 @@
-const axios = require('axios');
+import { AxiosInstance } from "axios";
 
+const axios = require('axios');
 const COUNTER_APP_PORT = process.env.COUNTER_APP_PORT || 3001;
 
 class CounterService {
+    httpClient: AxiosInstance;
+
     constructor() {
         this.httpClient = axios.create({
             baseURL: `http://localhost:${COUNTER_APP_PORT}`,
@@ -12,22 +15,22 @@ class CounterService {
         });
     }
 
-    async increaseBookViewCount(bookId) {
+    async increaseBookViewCount(bookId: string) {
         try {
             return await this.httpClient.post(`/counter/${bookId}/incr`);
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
     }
 
-    async getBookViewCount(bookId) {
+    async getBookViewCount(bookId: string) {
         try {
             const response = await this.httpClient.get(`/counter/${bookId}`);
             return response.data;
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
     }
 }
 
-exports.CounterService = new CounterService();
+export default new CounterService();

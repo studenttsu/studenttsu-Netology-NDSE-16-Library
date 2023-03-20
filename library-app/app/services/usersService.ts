@@ -1,13 +1,10 @@
 import * as bcrypt from 'bcrypt';
-import { injectableService } from "../container";
-import { UserSchema } from "../models/user";
+import { injectable } from "inversify";
+import { IUser, UserSchema } from "../models/user";
 
+@injectable()
 export class UsersService {
-    constructor() {
-        injectableService(this);
-    }
-
-    async createUser(userDto: any) {
+    async createUser(userDto: IUser) {
         const salt = await bcrypt.genSalt(10);
 
         const user = new UserSchema({
@@ -27,7 +24,7 @@ export class UsersService {
     }
 
     async verifyPassword(id: string, password: string) {
-        const user = await UserSchema.findById(id);
+        const user: IUser = await UserSchema.findById(id);
         return bcrypt.compare(password, user.password);
     }
 }

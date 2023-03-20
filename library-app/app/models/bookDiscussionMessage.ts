@@ -1,14 +1,20 @@
 import { model, Schema } from "mongoose";
 
-export const BookDiscussionMessageSchema = model('BookDiscussionMessage', new Schema({
+export interface IBookDiscussionMessage {
+    bookId: string;
+    authorId: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export const schema = new Schema<IBookDiscussionMessage>({
     bookId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Book',
+        type: String,
         required: true
     },
     authorId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         required: true
     },
     message: {
@@ -17,4 +23,6 @@ export const BookDiscussionMessageSchema = model('BookDiscussionMessage', new Sc
     },
 }, {
     timestamps: true
-}));
+});
+
+export const BookDiscussionMessageSchema = model('BookDiscussionMessage', schema);

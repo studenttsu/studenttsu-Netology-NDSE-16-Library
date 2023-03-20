@@ -1,8 +1,18 @@
 import * as uuid from 'uuid';
 import { model, Schema } from "mongoose";
-import { IBook } from "../core/interfaces/IBook";
 
-export const BookSchema = model('Book', new Schema({
+export interface IBook {
+    id: string;
+    title: string;
+    description: string;
+    authors: string;
+    favorite: string;
+    fileCover: string;
+    fileName: string;
+    fileBook: string;
+}
+
+const bookSchema = new Schema<IBook>({
     title: {
         type: String,
         required: true
@@ -16,7 +26,9 @@ export const BookSchema = model('Book', new Schema({
     fileCover: String,
     fileName: String,
     fileBook: String
-}));
+});
+
+export const BookSchema = model('Book', bookSchema);
 
 export class Book {
     id = uuid.v4();
@@ -28,9 +40,5 @@ export class Book {
     fileName = '';
     fileBook = '';
 
-    constructor(book: IBook) {
-        if (book) {
-            Object.assign(this, book);
-        }
-    }
+    constructor() {}
 }

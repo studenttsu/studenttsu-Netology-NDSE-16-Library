@@ -1,6 +1,6 @@
 import { Socket, Server } from "socket.io";
-const {container} = require('./container');
-const {BooksService} = require('./services/booksService');
+import { BooksService, IBookMessage } from "./services/booksService";
+import { container } from "./container";
 
 const repo = container.get(BooksService);
 
@@ -17,7 +17,7 @@ export const createWebsocketIO = (websocketServer: any) => {
 
         socket.join(roomName);
 
-        socket.on('message-to-room', async (data: any) => {
+        socket.on('message-to-room', async (data: IBookMessage) => {
             const message = await repo.saveComment(data);
             socket.to(roomName).emit('message-to-room', message);
             socket.emit('message-to-room', message);

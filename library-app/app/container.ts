@@ -1,10 +1,8 @@
-import { Container, decorate, injectable } from "inversify";
-import 'reflect-metadata';
+import { Container } from "inversify";
+import { BooksService } from "./services/booksService";
+import { UsersService } from "./services/usersService";
 
 export const container = new Container();
 
-export const injectableService = (provider: any) => {
-    decorate(injectable(), provider);
-    container.bind(provider).toSelf();
-    return provider;
-}
+container.bind<BooksService>(BooksService).toSelf();
+container.bind<UsersService>(UsersService).toSelf();

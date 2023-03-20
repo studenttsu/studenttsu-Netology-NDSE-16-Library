@@ -2,10 +2,11 @@ import { BooksService } from "../services/booksService";
 import { container } from "../container";
 import { Request, Response } from "express";
 import * as path from "path";
+import { IBook } from "../models/book";
 
 const repo = container.get(BooksService);
 
-exports.getAll = async (req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
     try {
         const books = await repo.getAll();
         res.json(books);
@@ -14,7 +15,7 @@ exports.getAll = async (req: Request, res: Response) => {
     }
 }
 
-exports.getById = async (req: Request, res: Response) => {
+export const getById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
@@ -25,7 +26,7 @@ exports.getById = async (req: Request, res: Response) => {
     }
 }
 
-exports.create = async (req: any, res: Response) => {
+export const create = async (req: any, res: Response) => {
     const bookDto = req.body;
 
     try {
@@ -48,7 +49,7 @@ exports.create = async (req: any, res: Response) => {
     }
 }
 
-exports.update = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     await repo.update(id, req.body);
@@ -57,16 +58,16 @@ exports.update = async (req: Request, res: Response) => {
     res.json(updatedBook);
 }
 
-exports.remove = async (req: Request, res: Response) => {
+export const remove = async (req: Request, res: Response) => {
     const { id } = req.params;
     await repo.remove(id);
 
     res.send('ok');
 }
 
-exports.downloadBook = async (req: Request, res: Response) => {
+export const downloadBook = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const book = await repo.getById(id);
+    const book: IBook = await repo.getById(id);
 
     res.download(path.resolve(book.fileBook));
 }

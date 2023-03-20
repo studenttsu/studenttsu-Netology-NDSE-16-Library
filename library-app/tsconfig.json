@@ -6,6 +6,10 @@
     "rootDir": ".",
     "incremental": true,
     "target": "es6",
-    "moduleResolution": "Node"
+    "moduleResolution": "node",
+    "module": "commonJS",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["reflect-metadata"]
   }
 }

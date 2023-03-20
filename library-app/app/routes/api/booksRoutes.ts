@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const booksController = require('../../controllers/booksController');
-const { checkBook } = require('../../middlewares/checkBook');
-const uploadBook  = require('../../middlewares/uploadBook');
+import { Router } from "express";
+import { checkBook } from "../../middlewares/checkBook";
+import uploadBook from "../../middlewares/uploadBook";
+import * as booksController from '../../controllers/booksController';
 
 export const booksRoutes = Router();
 

@@ -1,19 +1,15 @@
-import { IBook } from "../core/interfaces/IBook";
-import { BookSchema } from "../models/book";
+import { injectable } from "inversify";
+import { BookSchema, IBook } from "../models/book";
 import { BookDiscussionMessageSchema } from "../models/bookDiscussionMessage";
-import { injectableService } from "../container";
 
-interface IBookMessage {
+export interface IBookMessage {
     bookId: string,
     authorId: string,
     message: string
 }
 
+@injectable()
 export class BooksService {
-    constructor() {
-        injectableService(this)
-    }
-
     getAll() {
         return BookSchema.find().select('-__v');
     }

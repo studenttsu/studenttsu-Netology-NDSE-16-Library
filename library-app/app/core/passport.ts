@@ -3,6 +3,7 @@ import * as passport from "passport";
 import { DoneCallback } from "passport";
 import { Strategy } from 'passport-local';
 import { UsersService } from "../services/usersService";
+import { IUser } from "../models/user";
 
 const usersRepo = container.get(UsersService);
 
@@ -10,7 +11,7 @@ passport.use('local', new Strategy({
     usernameField: "username",
     passwordField: "password",
 }, async (username: string, password: string, done: DoneCallback) => {
-    const user = await usersRepo.getByUsername(username);
+    const user: IUser = await usersRepo.getByUsername(username);
 
     if (!user) {
         done(null, false);

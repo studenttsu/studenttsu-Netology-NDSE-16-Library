@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as mongoose from 'mongoose';
 import { app, websocketServer } from "./app/app";
 import { BookSchema } from "./app/models/book";
