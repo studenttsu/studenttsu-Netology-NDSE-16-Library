@@ -1,13 +1,18 @@
 import { model, Schema } from "mongoose";
 
 export interface IUser {
-    id: string;
+    id?: string;
+    yandexId?: string;
     username: string;
     email: string;
     password: string;
 }
 
 export const UserSchema = model('User', new Schema<IUser>({
+    yandexId: {
+        type: String,
+        required: false
+    },
     username: {
         type: String,
         required: true
@@ -18,6 +23,6 @@ export const UserSchema = model('User', new Schema<IUser>({
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
 }));

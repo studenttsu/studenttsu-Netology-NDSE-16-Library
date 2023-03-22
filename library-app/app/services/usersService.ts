@@ -9,7 +9,7 @@ export class UsersService {
 
         const user = new UserSchema({
             ...userDto,
-            password: await bcrypt.hash(userDto.password, salt)
+            password: userDto.password ? await bcrypt.hash(userDto.password, salt) : null
         });
 
         await user.save();
@@ -19,12 +19,21 @@ export class UsersService {
         return UserSchema.findById(id).select(['id', 'username', 'email']);
     }
 
+    getByYandexId(id: string) {
+        return UserSchema.findOne({ yandexId: id }).select(['id', 'username', 'email']);
+    }
+
     getByUsername(username: string) {
         return UserSchema.findOne({ username }).select(['id', 'username', 'email']);
     }
 
-    async verifyPassword(id: string, password: string) {
+    async verifyPassword(id: string, password: string): Promise<boolean> {
         const user: IUser = await UserSchema.findById(id);
+
+        if (!user.password) {
+            return false;
+        }
+
         return bcrypt.compare(password, user.password);
     }
 }

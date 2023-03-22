@@ -18,6 +18,15 @@ clientRoutes
         const books = await booksRepo.getAll();
         res.render('index', { books });
     })
+    .get('/auth/yandex',
+        passport.authenticate('yandex')
+    )
+    .get('/auth/yandex/callback',
+        passport.authenticate('yandex', {failureRedirect: '/'}),
+        (req, res) => {
+            res.redirect('/');
+        }
+    )
     .get('/login', (req: Request, res: Response) => {
         res.render('login', { layout: './layouts/base' });
     })
